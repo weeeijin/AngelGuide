@@ -9,7 +9,7 @@ class SosScreen extends StatelessWidget {
       body: Center(
         child: GestureDetector(
           onLongPress: () {
-            // TODO: Handle SOS trigger here (alarm, location, mic, etc.)
+            // ·
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(const SnackBar(content: Text("🚨 SOS Activated!")));
