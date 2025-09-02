@@ -1,3 +1,4 @@
+import 'login_page/introduction_animation/introduction_animation_screen.dart';
 import 'package:flutter/material.dart';
 import 'sos_screen.dart';
 import 'campus_map.dart';
@@ -18,27 +19,33 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: const IntroductionAnimationScreen(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final int initialIndex;
+  const MyHomePage({super.key, this.initialIndex = 0});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
 
-  // Screens for each tab
   static final List<Widget> _screens = <Widget>[
-    const SosScreen(), // Tab 0
-    const CampusMapScreen(), // Tab 1
-    const Center(child: Text("Profile Screen")), // Tab 2 (example)
+    const SosScreen(),
+    const CampusMapScreen(),
+    const Center(child: Text('Profile Screen')), // Placeholder for Profile
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
