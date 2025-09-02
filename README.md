@@ -21,11 +21,4 @@ git clone https://github.com/weeeijin/AngelGuide
 cd AngelGuide
 flutter pub get
 flutter run
----
-
-In your terminal (inside project folder):
-```bash
-git add README.md
-git commit -m "docs: add project plan and roles"
-git push origin main
 

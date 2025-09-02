@@ -5,6 +5,11 @@
 .pub/
 build/
 flutter_*.png
+lib/generated_plugin_registrant.dart
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.flutter-plugins-dependencies
+/coverage/
 
 # Android
 android/.gradle/
@@ -16,6 +21,9 @@ android/app/build/
 *.dex
 *.jar
 *.keystore
+/android/app/debug
+/android/app/profile
+/android/app/release
 
 # iOS
 ios/Pods/
@@ -37,3 +45,17 @@ lib/generated_plugin_registrant.dart
 # Other
 *.tmp
 *.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
