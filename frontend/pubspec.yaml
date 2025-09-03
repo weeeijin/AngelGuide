@@ -65,7 +65,11 @@ flutter:
   #   - images/a_dot_ham.jpe
   assets:
     - assets/introduction_animation/    # Add this directory for animation assets
-
+    - assets/introduction_animation/introduction_image.png
+    - assets/introduction_animation/care_image.png
+    - assets/introduction_animation/welcome.png
+    - assets/introduction_animation/relax_image.png
+    - assets/introduction_animation/mood_dairy_image.png                    # Add this directory for login assets
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

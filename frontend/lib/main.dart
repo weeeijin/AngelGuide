@@ -1,4 +1,5 @@
 import 'login_page/introduction_animation/introduction_animation_screen.dart';
+import 'login_page/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'sos_screen.dart';
 import 'campus_map.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const IntroductionAnimationScreen(),
+      home: IntroductionAnimationScreen(),
     );
   }
 }
