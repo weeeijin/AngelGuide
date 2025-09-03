@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class MoodDiaryView extends StatelessWidget {
   final AnimationController animationController;
 
-  const MoodDiaryView({Key? key, required this.animationController})
-      : super(key: key);
+  const MoodDiaryView({super.key, required this.animationController});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class MoodDiaryView extends StatelessWidget {
     return SlideTransition(
       position: firstHalfAnimation,
       child: const Center(
-        child: Text('Mood Diary View'),  // Placeholder content
+        child: Text('Mood Diary View'), // Placeholder content
       ),
     );
   }

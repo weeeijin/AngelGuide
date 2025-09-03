@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class SplashView extends StatefulWidget {
   final AnimationController animationController;
 
-  const SplashView({Key? key, required this.animationController})
-    : super(key: key);
+  const SplashView({super.key, required this.animationController});
 
   @override
   _SplashViewState createState() => _SplashViewState();
@@ -13,15 +12,15 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
-    final _introductionanimation =
+    final introductionanimation =
         Tween<Offset>(begin: Offset(0, 0), end: Offset(0.0, -1.0)).animate(
-          CurvedAnimation(
-            parent: widget.animationController,
-            curve: Interval(0.0, 0.2, curve: Curves.fastOutSlowIn),
-          ),
-        );
+      CurvedAnimation(
+        parent: widget.animationController,
+        curve: Interval(0.0, 0.2, curve: Curves.fastOutSlowIn),
+      ),
+    );
     return SlideTransition(
-      position: _introductionanimation,
+      position: introductionanimation,
       child: SingleChildScrollView(
         child: Column(
           children: [
