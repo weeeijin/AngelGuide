@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../login_screen.dart';
 
 // Use relative imports for components
 import 'components/care_view.dart';
@@ -117,10 +118,8 @@ class _IntroductionAnimationScreenState
   }
 
   void _signUpClick() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => const MyHomePage(initialIndex: 0)),
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => LoginScreen()),
     );
   }
 }
