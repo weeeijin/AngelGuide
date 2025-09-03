@@ -11,6 +11,8 @@ class CheckEmailScreen extends StatefulWidget {
 
 class _CheckEmailScreenState extends State<CheckEmailScreen> with SingleTickerProviderStateMixin {
   late Animation<Offset> _slideAnimation;
+  final _formKey = GlobalKey<FormState>();
+  final _codeController = TextEditingController();
 
   @override
   void initState() {
@@ -37,50 +39,74 @@ class _CheckEmailScreenState extends State<CheckEmailScreen> with SingleTickerPr
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.email, size: 80, color: Colors.blue),
-                const SizedBox(height: 24),
-                Text(
-                  'Check your email',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'We have sent a verification link to your email address. Please check your inbox to verify your account.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 32),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
-                  child: const Text(
-                    'Go to Login',
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.email, size: 80, color: Colors.blue),
+                  const SizedBox(height: 24),
+                  Text(
+                    'Enter Verification Code',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  Text(
+                    'We have sent a verification code to your email address. Please enter it below to verify your account.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 32),
+                  TextFormField(
+                    controller: _codeController,
+                    decoration: InputDecoration(
+                      labelText: 'Verification Code',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      prefixIcon: Icon(Icons.verified),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter the verification code';
+                      }
+                      // You can add more validation here if needed
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 32),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // Here you would check the code with your backend
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                        );
+                      }
+                    },
+                    child: const Text(
+                      'Verify',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

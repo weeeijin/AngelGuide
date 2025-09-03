@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../login_screen.dart';
 
 class WelcomeView extends StatelessWidget {
   final AnimationController animationController;
@@ -82,6 +83,39 @@ class WelcomeView extends StatelessWidget {
                 child: Text(
                   "Stay organised and live stress-free with you-do app",
                   textAlign: TextAlign.center,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          LoginScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        const begin = Offset(1.0, 0.0);
+                        const end = Offset.zero;
+                        const curve = Curves.easeInOut;
+                        var tween = Tween(
+                                begin: begin, end: end)
+                            .chain(CurveTween(curve: curve));
+                        return SlideTransition(
+                          position: animation.drive(tween),
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 600),
+                    ),
+                  );
+                },
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ],
