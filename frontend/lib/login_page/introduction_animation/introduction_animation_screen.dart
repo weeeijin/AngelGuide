@@ -13,7 +13,7 @@ import 'components/welcome_view.dart';
 import '../../../main.dart';
 
 class IntroductionAnimationScreen extends StatefulWidget {
-  const IntroductionAnimationScreen({Key? key}) : super(key: key);
+  const IntroductionAnimationScreen({super.key});
 
   @override
   _IntroductionAnimationScreenState createState() =>
@@ -119,7 +119,8 @@ class _IntroductionAnimationScreenState
   void _signUpClick() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const MyHomePage(initialIndex: 0)),
+      MaterialPageRoute(
+          builder: (context) => const MyHomePage(initialIndex: 0)),
     );
   }
 }
