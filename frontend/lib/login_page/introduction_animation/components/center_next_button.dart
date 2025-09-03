@@ -87,10 +87,10 @@ class CenterNextButton extends StatelessWidget {
                     ) {
                       return SharedAxisTransition(
                         fillColor: Colors.transparent,
-                        child: child,
                         animation: animation,
                         secondaryAnimation: secondaryAnimation,
                         transitionType: SharedAxisTransitionType.vertical,
+                        child: child,
                       );
                     },
                     child: signUpMoveAnimation.value > 0.7
