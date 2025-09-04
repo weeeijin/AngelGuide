@@ -1,160 +1,258 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-class SosScreen extends StatefulWidget {
+class SosScreen extends StatelessWidget {
   const SosScreen({Key? key}) : super(key: key);
 
   @override
-  State<SosScreen> createState() => _SosScreenState();
-}
-
-class _SosScreenState extends State<SosScreen> with TickerProviderStateMixin {
-  late AnimationController _progressController;
-  bool _sosTriggered = false;
-  bool _isPressing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _progressController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    );
-    _progressController.addStatusListener((status) {
-      if (status == AnimationStatus.completed && _isPressing) {
-        setState(() {
-          _sosTriggered = true;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('SOS has been triggered!'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _progressController.dispose();
-    super.dispose();
-  }
-
-  void _onTapDown(TapDownDetails details) {
-    setState(() {
-      _isPressing = true;
-      _sosTriggered = false;
-    });
-    _progressController.forward(from: 0);
-  }
-
-  void _onTapUp(TapUpDetails details) {
-    setState(() {
-      _isPressing = false;
-    });
-    if (!_sosTriggered) {
-      _progressController.reverse();
-    }
-  }
-
-  void _onTapCancel() {
-    setState(() {
-      _isPressing = false;
-    });
-    if (!_sosTriggered) {
-      _progressController.reverse();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final Color mainColor = const Color(0xFF1ED6C1);
+
     return Scaffold(
-      backgroundColor: const Color(0xffF7EBE1),
-      body: Stack(
-        children: [
-          Center(
-            child: GestureDetector(
-              onTapDown: _onTapDown,
-              onTapUp: _onTapUp,
-              onTapCancel: _onTapCancel,
-              child: AnimatedBuilder(
-                animation: _progressController,
-                builder: (context, child) {
-                  return Stack(
-                    alignment: Alignment.center,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Background clouds and trees (replace with your own images if available)
+            Positioned(
+              top: 120,
+              left: 0,
+              right: 0,
+              child: Opacity(
+                opacity: 0.2,
+                child: Image.asset(
+                  'assets/bg_clouds.png', // Replace with your asset or use Container for placeholder
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 120,
+              left: 0,
+              child: Opacity(
+                opacity: 0.7,
+                child: Image.asset(
+                  'assets/bg_trees_left.png', // Replace with your asset or use Container for placeholder
+                  height: 120,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 120,
+              right: 0,
+              child: Opacity(
+                opacity: 0.7,
+                child: Image.asset(
+                  'assets/bg_trees_right.png', // Replace with your asset or use Container for placeholder
+                  height: 120,
+                ),
+              ),
+            ),
+            // Main content
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Top search bar and icons
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  child: Column(
                     children: [
-                      // Circular progress
-                      SizedBox(
-                        width: 160,
-                        height: 160,
-                        child: CustomPaint(
-                          painter: _SOSProgressPainter(
-                            progress: _progressController.value,
-                            triggered: _sosTriggered,
-                          ),
-                        ),
-                      ),
-                      // Main SOS button
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _sosTriggered ? Colors.red : Colors.pinkAccent,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.pinkAccent.withOpacity(0.4),
-                              blurRadius: 24,
-                              spreadRadius: 4,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(color: Colors.grey.shade300),
+                              ),
+                              child: Row(
+                                children: [
+                                  const SizedBox(width: 12),
+                                  Icon(Icons.search, color: Colors.grey.shade400),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      "Search Safest Route to...",
+                                      style: TextStyle(
+                                        color: Colors.grey.shade400,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            'SOS',
+                          ),
+                          const SizedBox(width: 12),
+                          Icon(Icons.more_vert, color: Colors.grey.shade400),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          _ChipButton(label: "Home", icon: Icons.home, color: mainColor),
+                          const SizedBox(width: 8),
+                          _ChipButton(label: "School", icon: Icons.school, color: mainColor),
+                          const SizedBox(width: 8),
+                          _ChipButton(label: "Work", icon: Icons.work, color: mainColor),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: mainColor,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                          child: const Text(
+                            "Get Free Stuff",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 40,
-                              fontWeight: FontWeight.w900,
-                              fontFamily: 'Comic Sans MS',
-                              letterSpacing: 2,
-                              shadows: [
-                                Shadow(
-                                  blurRadius: 10,
-                                  color: Colors.black26,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                             ),
                           ),
                         ),
                       ),
                     ],
-                  );
-                },
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Big SOS button
+                Center(
+                  child: Container(
+                    width: 260,
+                    height: 260,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: mainColor.withOpacity(0.08),
+                    ),
+                    child: Center(
+                      child: Container(
+                        width: 220,
+                        height: 220,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: mainColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Hold to Start\nEmergency Mode",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Message box
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: mainColor, width: 2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      "Add your first Angel and both you and your Angel will get a free week of Haven Premium. Now that's a WIN–WIN!",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                // Bottom navigation
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 18.0, left: 24, right: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _BottomNavIcon(icon: Icons.menu_book),
+                      _BottomNavIcon(icon: Icons.map),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: mainColor,
+                          shape: BoxShape.circle,
+                        ),
+                        padding: const EdgeInsets.all(16),
+                        child: Icon(Icons.home, color: Colors.white, size: 32),
+                      ),
+                      _BottomNavIcon(icon: Icons.people),
+                      _BottomNavIcon(icon: Icons.menu),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            // Location icon floating
+            Positioned(
+              bottom: 140,
+              right: 32,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: mainColor, width: 2),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: mainColor.withOpacity(0.1),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Icon(Icons.my_location, color: mainColor, size: 28),
               ),
             ),
-          ),
-          // Subtitle
-          Positioned(
-            bottom: 100,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Text(
-                _sosTriggered
-                    ? 'SOS Triggered!'
-                    : 'Press and hold the SOS button for 3 seconds',
-                style: TextStyle(
-                  color: Colors.pink[700],
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Comic Sans MS',
-                  letterSpacing: 1.2,
-                ),
-              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ChipButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  const _ChipButton({required this.label, required this.icon, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color, width: 1.5),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 18),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              color: color,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
             ),
           ),
         ],
@@ -163,48 +261,12 @@ class _SosScreenState extends State<SosScreen> with TickerProviderStateMixin {
   }
 }
 
-class _SOSProgressPainter extends CustomPainter {
-  final double progress;
-  final bool triggered;
-  _SOSProgressPainter({required this.progress, required this.triggered});
+class _BottomNavIcon extends StatelessWidget {
+  final IconData icon;
+  const _BottomNavIcon({required this.icon});
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final Paint bgPaint = Paint()
-      ..color = Colors.pink[100]!
-      ..strokeWidth = 12
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    final Paint fgPaint = Paint()
-      ..color = triggered ? Colors.red : Colors.pinkAccent
-      ..strokeWidth = 12
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    // Draw background circle
-    canvas.drawCircle(size.center(Offset.zero), size.width / 2 - 6, bgPaint);
-
-    // Draw progress arc
-    double sweepAngle = 2 * 3.141592653589793 * progress;
-    canvas.drawArc(
-      Rect.fromCircle(center: size.center(Offset.zero), radius: size.width / 2 - 6),
-      -3.141592653589793 / 2,
-      sweepAngle,
-      false,
-      fgPaint,
-    );
-
-    // If triggered, fill the circle
-    if (triggered) {
-      final Paint fillPaint = Paint()
-        ..color = Colors.red.withOpacity(0.2)
-        ..style = PaintingStyle.fill;
-      canvas.drawCircle(size.center(Offset.zero), size.width / 2 - 12, fillPaint);
-    }
+  Widget build(BuildContext context) {
+    return Icon(icon, color: const Color(0xFF1ED6C1), size: 32);
   }
-
-  @override
-  bool shouldRepaint(covariant _SOSProgressPainter oldDelegate) =>
-      oldDelegate.progress != progress || oldDelegate.triggered != triggered;
 }
