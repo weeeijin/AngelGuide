@@ -95,7 +95,7 @@ class _SosScreenState extends State<SosScreen> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      // Cute main SOS button
+                      // Main SOS button
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
                         width: 120,
@@ -118,7 +118,7 @@ class _SosScreenState extends State<SosScreen> with TickerProviderStateMixin {
                               color: Colors.white,
                               fontSize: 40,
                               fontWeight: FontWeight.w900,
-                              fontFamily: 'Comic Sans MS', // Cute font
+                              fontFamily: 'Comic Sans MS',
                               letterSpacing: 2,
                               shadows: [
                                 Shadow(
@@ -137,7 +137,7 @@ class _SosScreenState extends State<SosScreen> with TickerProviderStateMixin {
               ),
             ),
           ),
-          // Cute subtitle
+          // Subtitle
           Positioned(
             bottom: 100,
             left: 0,

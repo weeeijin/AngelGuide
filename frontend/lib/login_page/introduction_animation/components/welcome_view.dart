@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../login_screen.dart';
+// import '../../login_screen.dart'; // Keep this import for later use
 
 class WelcomeView extends StatelessWidget {
   final AnimationController animationController;
@@ -85,7 +85,7 @@ class WelcomeView extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              TextButton(
+              /* TextButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     PageRouteBuilder(
@@ -117,7 +117,7 @@ class WelcomeView extends StatelessWidget {
                     decoration: TextDecoration.underline,
                   ),
                 ),
-              ),
+              ), */
             ],
           ),
         ),

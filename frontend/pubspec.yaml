@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_staggered_animations: ^1.1.1
   flutter:
     sdk: flutter
   animations: ^2.0.8  # Add this line
