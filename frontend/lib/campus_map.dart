@@ -225,6 +225,7 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
             left: MediaQuery.of(context).size.width * 0.25,
             right: MediaQuery.of(context).size.width * 0.25,
             child: CupertinoButton.filled(
+              color: CupertinoColors.destructiveRed,
               borderRadius: BorderRadius.circular(30),
               padding: const EdgeInsets.symmetric(vertical: 14),
               child: Row(
