@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'dart:ui';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart'; // still needed for GoogleMap
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
-// You will create this screen separately
 import 'report_screen.dart';
 
 class CampusMapScreen extends StatefulWidget {
@@ -159,11 +160,11 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return CupertinoPageScaffold(
+      child: Stack(
         children: [
           _currentPosition == null
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(child: CupertinoActivityIndicator(radius: 16))
               : GoogleMap(
                   myLocationEnabled: true,
                   markers: _markers,
@@ -179,54 +180,74 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
                     _mapController = controller;
                   },
                 ),
-          // Search bar
+          // iOS-style search bar with blur
           Positioned(
-            top: 40,
-            left: 10,
-            right: 10,
-            child: Card(
-              child: TextField(
-                controller: destinationController,
-                decoration: InputDecoration(
-                  hintText: "Enter destination",
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      _getRoute(destinationController.text);
-                    },
+            top: 50,
+            left: 12,
+            right: 12,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  color: CupertinoColors.systemGrey.withOpacity(0.2),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      const Icon(CupertinoIcons.search,
+                          color: CupertinoColors.systemGrey),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: CupertinoTextField.borderless(
+                          controller: destinationController,
+                          placeholder: "Enter destination",
+                          onSubmitted: (value) => _getRoute(value),
+                        ),
+                      ),
+                      CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        child: const Icon(
+                            CupertinoIcons.arrow_right_circle_fill,
+                            color: CupertinoColors.activeBlue),
+                        onPressed: () {
+                          _getRoute(destinationController.text);
+                        },
+                      ),
+                    ],
                   ),
-                  contentPadding: const EdgeInsets.all(10),
                 ),
-                onSubmitted: (value) {
-                  _getRoute(value);
-                },
               ),
             ),
           ),
-          // Report button (middle bottom)
+          // Cupertino-style Report button
           Positioned(
-            bottom: 30,
-            left: MediaQuery.of(context).size.width * 0.35,
-            right: MediaQuery.of(context).size.width * 0.35,
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(150, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // <- curve
-                ),
-              ),
-              icon: const Icon(Icons.report),
-              label: const Text(
-                "Report",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            bottom: 40,
+            left: MediaQuery.of(context).size.width * 0.25,
+            right: MediaQuery.of(context).size.width * 0.25,
+            child: CupertinoButton.filled(
+              borderRadius: BorderRadius.circular(30),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(CupertinoIcons.exclamationmark_triangle_fill,
+                      color: CupertinoColors.white),
+                  SizedBox(width: 8),
+                  Text(
+                    "Report",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: CupertinoColors.white,
+                    ),
+                  ),
+                ],
               ),
               onPressed: () {
                 if (_currentPosition != null) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                       builder: (_) => ReportScreen(
                         latitude: _currentPosition!.latitude,
                         longitude: _currentPosition!.longitude,
